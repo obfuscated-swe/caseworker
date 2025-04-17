@@ -7,16 +7,19 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "tasks")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class ExampleCase {
-
+public class Task {
+    @Id
     private int id;
-    private String caseNumber;
     private String title;
     private String description;
     private String status;
-    private LocalDateTime createdDate;
+    private LocalDateTime dueDate;
 }
