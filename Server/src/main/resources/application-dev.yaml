@@ -1,0 +1,18 @@
+spring:
+  datasource:
+   driver-class-name: org.postgresql.Driver
+   url: jdbc:postgresql://localhost:5432/local_caseworker_db
+   username: dev_user
+   password: dev_password
+   properties:
+     charSet: UTF-8
+   hikari:
+     minimumIdle: 2
+     maximumPoolSize: 10
+     idleTimeout: 10000
+     poolName: DevHikariCP
+     maxLifetime: 7200000
+     connectionTimeout: 30000
+  jpa:
+    hibernate:
+      ddl-auto: update
