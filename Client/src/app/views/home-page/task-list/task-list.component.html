@@ -1,0 +1,10 @@
+@if (error) {
+<error-no-connection></error-no-connection>
+} @else if (loading) {
+<p class="govuk-heading-s">Loading..</p>
+} @for (task of tasks; track $index) {
+<div class="task">
+  <h2>{{ task.title }}</h2>
+  <p>{{ task.description }}</p>
+</div>
+}
