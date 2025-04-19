@@ -32,7 +32,7 @@ describe('TaskService', () => {
       caseNumber: 1,
       title: 'Test Task',
       description: '',
-      status: TaskStatus.TODO,
+      status: TaskStatus.NotStarted,
       dueDate: new Date(),
     };
     service.getTask(1).subscribe((task) => {
@@ -51,7 +51,7 @@ describe('TaskService', () => {
         caseNumber: 1,
         title: 'Task 1',
         description: '',
-        status: TaskStatus.TODO,
+        status: TaskStatus.NotStarted,
         dueDate: new Date(),
       },
       {
@@ -59,7 +59,7 @@ describe('TaskService', () => {
         caseNumber: 2,
         title: 'Task 2',
         description: '',
-        status: TaskStatus.TODO,
+        status: TaskStatus.NotStarted,
         dueDate: new Date(),
       },
     ];

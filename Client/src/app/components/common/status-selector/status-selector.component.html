@@ -1,0 +1,25 @@
+<div class="govuk-form-group">
+  <fieldset class="govuk-fieldset" aria-describedby="waste-hint">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+      <h1 class="govuk-fieldset__heading">Filter by status</h1>
+    </legend>
+
+    @for (status of statusList; track $index) {
+    <div class="govuk-checkboxe govuk-checkboxes--small" data-module="govuk-checkboxes">
+      <div class="govuk-checkboxes__item">
+        <input
+          class="govuk-checkboxes__input"
+          id="{{ status }}"
+          name="{{ status }}"
+          type="checkbox"
+          value="{{ status }}"
+          [checked]="true"
+        />
+        <label class="govuk-label govuk-checkboxes__label" for="waste">
+          {{ humanReadableStatus(status) }}
+        </label>
+      </div>
+    </div>
+    }
+  </fieldset>
+</div>

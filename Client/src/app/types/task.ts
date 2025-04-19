@@ -8,7 +8,9 @@ export type Task = {
 };
 
 export enum TaskStatus {
-  TODO = 'todo',
-  IN_PROGRESS = 'in-progress',
-  DONE = 'done',
+  NotStarted = 'NotStarted',
+  InProgress = 'InProgress',
+  OnHold = 'OnHold',
+  Completed = 'Completed',
+  Cancelled = 'Cancelled',
 }

@@ -3,3 +3,17 @@
     align-items: center;
     gap: 0.5rem;
 }
+
+.color-override {
+    fill: #d4351c;
+    color: #d4351c;
+}
+
+.error {
+    height: 100%;
+}
+
+.icon {
+    min-width: 1rem;
+    min-height: 1rem;
+}

@@ -11,7 +11,7 @@ import { TaskFiltersComponent } from './task-filters/task-filters.component';
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [TaskListComponent, TaskComponent, TaskFiltersComponent],
+  imports: [TaskListComponent, TaskFiltersComponent],
   providers: [TaskService],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css',
