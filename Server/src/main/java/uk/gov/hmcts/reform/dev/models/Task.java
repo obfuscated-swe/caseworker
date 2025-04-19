@@ -8,6 +8,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
+import uk.gov.hmcts.reform.dev.enums.TaskStatus;
 
 @Entity
 @Table(name = "tasks")
@@ -18,8 +19,12 @@ import jakarta.persistence.*;
 public class Task {
     @Id
     private int id;
+    private int caseNumber;
     private String title;
     private String description;
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 16)
+    private TaskStatus status;
     private LocalDateTime dueDate;
 }
