@@ -1,1 +1,15 @@
-<p>task works!</p>
+@if (task) {
+<div class="task">
+  <div class="task-header">
+    <div class="govuk-body">{{ task.status }}</div>
+    <div class="govuk-body">Due: {{ task.dueDate | dynamicDate : 'h:mm a, d/M/y' }}</div>
+  </div>
+
+  <div class="task-title">
+    <h3 class="govuk-heading-m">{{ task.title }}</h3>
+    <h3 class="govuk-heading-m task-case-number">ID: {{ task.caseNumber }}</h3>
+  </div>
+
+  <p class="govuk-body">{{ task.description }}</p>
+</div>
+}

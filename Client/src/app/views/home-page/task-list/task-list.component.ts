@@ -2,10 +2,11 @@ import { Component, inject } from '@angular/core';
 import { NoConnectionComponent } from '../../../components/error/no-connection/no-connection.component';
 import { Task } from '../../../types/task';
 import { TaskService } from '../../../services/task.service';
+import { TaskComponent } from '../../../components/common/task/task.component';
 
 @Component({
   selector: 'task-list',
-  imports: [NoConnectionComponent],
+  imports: [NoConnectionComponent, TaskComponent],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.css',
 })
@@ -26,6 +27,7 @@ export class TaskListComponent {
         console.log(res);
         this.loading = false;
         this.tasks = res;
+        console.log(this.tasks);
       },
       error: (err) => {
         console.log(err);

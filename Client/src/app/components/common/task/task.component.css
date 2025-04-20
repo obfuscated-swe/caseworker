@@ -1,0 +1,17 @@
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.task-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.task-case-number {
+
+    font-size: 1rem;
+    color: #888;
+}
