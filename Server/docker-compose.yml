@@ -10,3 +10,13 @@ services:
       POSTGRES_USER: dev_user
       POSTGRES_PASSWORD: dev_password
       POSTGRES_DB: local_caseworker_db
+
+  test-database:
+    container_name: local_test_caseworker_db
+    image: postgres:15-alpine
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: test_dev_user
+      POSTGRES_PASSWORD: test_dev_password
+      POSTGRES_DB: local_test_caseworker_db
