@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.dev.models;
 
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,8 +19,12 @@ import uk.gov.hmcts.reform.dev.enums.TaskStatus;
 @Setter
 public class Task {
     @Id
+    @Size(min = 0)
     private int id;
+
+    @Size(min = 0)
     private int caseNumber;
+
     private String title;
     private String description;
 
