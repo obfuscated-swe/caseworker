@@ -28,4 +28,10 @@ spring:
     name: Dev Test
   profiles:
     active: dev
+  output:
+    ansi:
+      enabled: "always"
 
+logging:
+  pattern:
+    console: "%d{yy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) [%thread] %cyan(%logger{36}) - %msg%n"

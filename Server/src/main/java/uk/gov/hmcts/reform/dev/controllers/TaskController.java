@@ -3,8 +3,10 @@ package uk.gov.hmcts.reform.dev.controllers;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import uk.gov.hmcts.reform.dev.models.Task;
 import uk.gov.hmcts.reform.dev.services.TaskService;
 
@@ -15,6 +17,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/tasks")
+@Validated
 public class TaskController {
 
     private static final Logger logger = LogManager.getLogger(TaskController.class);
@@ -43,18 +46,23 @@ public class TaskController {
     }
 
     @PostMapping(value = "/add", produces = "application/json")
-    public ResponseEntity<Void> addTask(@RequestBody Task task) {
+    public ResponseEntity<Void> addTask(@Valid @RequestBody Task task) {
         logger.info("Adding new task: {}", task);
-        if (task == null) {
-            return ResponseEntity.badRequest().build();
+        logger.info("Task CaseNumber: {}", task.getCaseNumber());
+
+        Task exists = taskService.getTaskByCaseNumber(task.getCaseNumber());
+        if (exists != null) {
+            logger.error("Task with CaseNumber {} already exists", task.getCaseNumber());
+            return ResponseEntity.status(409).build();
         }
+
         taskService.addTask(task);
 
         return ResponseEntity.status(201).build();
     }
 
     @PutMapping(value = "/update", produces = "application/json")
-    public ResponseEntity<Void> updateTask(@RequestBody Task task) {
+    public ResponseEntity<Void> updateTask(@Valid @RequestBody Task task) {
         logger.info("Updating task: {}", task);
         taskService.updateTask(task);
         return ResponseEntity.ok().build();

@@ -19,6 +19,10 @@ public class TaskService {
         return taskRepository.findById(id).orElse(null);
     }
 
+    public Task getTaskByCaseNumber(int caseNumber) {
+        return taskRepository.findByCaseNumber(caseNumber).orElse(null);
+    }
+
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
     }
