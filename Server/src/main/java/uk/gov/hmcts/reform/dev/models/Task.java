@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.dev.models;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,13 +20,16 @@ import uk.gov.hmcts.reform.dev.enums.TaskStatus;
 @Setter
 public class Task {
     @Id
-    @Size(min = 0)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Size(min = 0)
+    @Min(0)
     private int caseNumber;
 
+    @Size(min = 0, max = 128)
     private String title;
+
+    @Size(min = 0, max = 500)
     private String description;
 
     @Enumerated(EnumType.STRING)
