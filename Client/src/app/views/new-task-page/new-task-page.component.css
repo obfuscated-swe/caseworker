@@ -1,0 +1,14 @@
+.button-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
+
+.new-task-btn {
+    background-color: hsl(208, 73%, 42%);
+}
+
+
+.new-task-btn:hover {
+    background-color: hsl(208, 73%, 30%);
+}
