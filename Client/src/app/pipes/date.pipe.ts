@@ -6,17 +6,26 @@ import { DateTime } from 'luxon';
 })
 export class DatePipe implements PipeTransform {
   transform(value: Date, format: string = 'MMM d, y, h:mm a'): string {
+    const pastFormat = 'MMM d, y';
+    const soonFormat = 'h:mm, MMM d';
+
     const parsedDate = DateTime.fromJSDate(value);
     const now = DateTime.now();
 
     if (parsedDate < now) {
-      return parsedDate.toFormat(format);
+      return 'Overdue: ' + parsedDate.toFormat(pastFormat);
     }
 
-    const diffInHours = parsedDate.diff(now, 'hours').hours;
-    const diffInDays = parsedDate.diff(now, 'days').days;
+    const diffInMonths = parsedDate.diff(now, 'months').months;
 
-    console.log('Parsed Date:', parsedDate.toString());
-    return diffInDays.toString();
+    if (diffInMonths < 12) {
+      return 'Due: ' + parsedDate.toFormat(soonFormat);
+    }
+    // const diffInHours = parsedDate.diff(now, 'hours').hours;
+    // const diffInDays = parsedDate.diff(now, 'days').days;
+
+    // console.log('Parsed Date:', parsedDate.toString());
+    // return diffInDays.toFixed(0) + ' Days';
+    return parsedDate.toFormat(format);
   }
 }

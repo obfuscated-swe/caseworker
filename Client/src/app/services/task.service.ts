@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { ApiService } from './api.service';
 import { Task } from '../types/task';
 import { ServerURL } from '../../env/environment';
@@ -22,15 +22,27 @@ export class TaskService {
   }
 
   postTask(body: any) {
-    return this.apiService.post(`${ServerURL}/tasks/add`, body) as Observable<void>;
+    return this.apiService.post(`${ServerURL}/tasks/add`, body).pipe(
+      catchError((error) => {
+        return throwError(() => error);
+      })
+    ) as Observable<void>;
   }
 
   putTask(body: any) {
-    return this.apiService.put(`${ServerURL}/tasks/update`, body) as Observable<void>;
+    return this.apiService.put(`${ServerURL}/tasks/update`, body).pipe(
+      catchError((error) => {
+        return throwError(() => error);
+      })
+    ) as Observable<void>;
   }
 
   deleteTask(id: number) {
-    return this.apiService.delete(`${ServerURL}/tasks/delete/id=${id}`) as Observable<void>;
+    return this.apiService.delete(`${ServerURL}/tasks/delete/id=${id}`).pipe(
+      catchError((error) => {
+        return throwError(() => error);
+      })
+    ) as Observable<void>;
   }
 
   private validateTasks(tasks: Task[]): Task[] {

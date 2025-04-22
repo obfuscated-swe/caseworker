@@ -1,0 +1,55 @@
+<div>
+  <form #taskForm="ngForm" class="govuk-form-group" (ngSubmit)="submitTask(taskForm)">
+    <fieldset class="govuk-fieldset">
+      <h1 class="govuk-heading-m">Add a new task</h1>
+      <div class="govuk-form-group">
+        <h1 class="govuk-label-wrapper">
+          <label class="govuk-label govuk-label--s" for="title"> Task title </label>
+        </h1>
+        <input class="govuk-input" id="title" name="title" type="text" ngModel required />
+      </div>
+
+      <div
+        class="govuk-form-group govuk-character-count"
+        data-module="govuk-character-count"
+        data-maxlength="500"
+      >
+        <h1 class="govuk-label-wrapper">
+          <label class="govuk-label govuk-label--s" for="description"> Task description </label>
+        </h1>
+        <textarea
+          class="govuk-textarea govuk-js-character-count"
+          id="description"
+          name="description"
+          rows="5"
+          aria-describedby="with-hint-info with-hint-hint"
+          ngModel
+          required
+        ></textarea>
+        <div id="with-hint-info" class="govuk-hint govuk-character-count__message">
+          You can enter up to 500 characters
+        </div>
+      </div>
+
+      <div class="govuk-form-group">
+        <h1 class="govuk-label-wrapper">
+          <label class="govuk-label govuk-label--s" for="due-date"> Task due date </label>
+        </h1>
+        <input class="govuk-input" name="dueDate" type="datetime-local" ngModel required />
+      </div>
+
+      <status-selector
+        lablel="Task Status"
+        name="status"
+        [(ngModel)]="selectedStatus"
+        type="radios"
+      ></status-selector>
+
+      <div class="button-row">
+        <button type="submit" class="govuk-button new-task-btn" data-module="govuk-button">
+          Add Task
+        </button>
+      </div>
+    </fieldset>
+  </form>
+</div>

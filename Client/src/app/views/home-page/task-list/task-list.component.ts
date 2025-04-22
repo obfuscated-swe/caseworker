@@ -26,6 +26,9 @@ export class TaskListComponent {
       next: (res: Task[]) => {
         console.log(res);
         this.loading = false;
+        res = res.sort((a, b) => {
+          return new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime();
+        });
         this.tasks = res;
         console.log(this.tasks);
       },

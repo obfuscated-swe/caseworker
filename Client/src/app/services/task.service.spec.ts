@@ -36,7 +36,6 @@ describe('TaskService', () => {
       dueDate: new Date(),
     };
     service.getTask(1).subscribe((task) => {
-      console.log(task);
       expect(task).toEqual(mockTask);
     });
     const req = httpMock.expectOne(`${ServerURL}/tasks/id=1`);
