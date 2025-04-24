@@ -71,12 +71,7 @@
         <input class="govuk-input" name="dueDate" type="datetime-local" ngModel required />
       </div>
 
-      <status-radio
-        lablel="Task Status"
-        name="status"
-        [(ngModel)]="selectedStatus"
-        type="radios"
-      ></status-radio>
+      <status-radio label="Task Status" name="status" [(ngModel)]="selectedStatus"></status-radio>
 
       <div class="button-row">
         <button

@@ -20,13 +20,12 @@ export class StatusSelectorComponent implements ControlValueAccessor {
   @Input() lablel: string = 'Filter by status';
 
   public statusList = StatusList();
+  public value: TaskStatus[] = [];
 
-  public value: TaskStatus[] = StatusList();
-
-  onChange(value: any) {}
+  onChange(value: TaskStatus[]) {}
   onTouched() {}
-  writeValue(value: any): void {
-    this.value = value;
+  writeValue(value: TaskStatus[]): void {
+    this.value = value || StatusList();
   }
   registerOnChange(fn: any): void {
     this.onChange = fn;
@@ -41,8 +40,7 @@ export class StatusSelectorComponent implements ControlValueAccessor {
     } else {
       this.value.push(status);
     }
-    console.log(this.value);
-    this.onChange(status);
+    this.onChange(this.value);
     this.onTouched();
   }
 }

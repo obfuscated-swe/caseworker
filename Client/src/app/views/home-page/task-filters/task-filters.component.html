@@ -1,4 +1,11 @@
 <div class="filters">
-  <task-search></task-search>
-  <status-selector></status-selector>
+  <form #filterForm="ngForm" (submit)="submitFilter(filterForm)">
+    <task-search name="search" ngModel></task-search>
+    <status-selector name="status" [(ngModel)]="selectedStatus"></status-selector>
+    <div class="btn-container">
+      <button #submitButton type="submit" class="govuk-button apply-btn" data-module="govuk-button">
+        Apply
+      </button>
+    </div>
+  </form>
 </div>

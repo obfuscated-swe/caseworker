@@ -30,6 +30,8 @@ export class NewTaskPageComponent {
         dueDate: form.value.dueDate,
       };
 
+      console.log('Task to be created:', task);
+
       this.taskService.postTask(task).subscribe({
         next: (response) => {
           this.newTask = task;

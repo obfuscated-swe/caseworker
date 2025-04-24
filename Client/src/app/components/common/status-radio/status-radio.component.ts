@@ -22,10 +22,10 @@ export class StatusRadioComponent implements ControlValueAccessor {
   public value: TaskStatus = TaskStatus.NotStarted;
   public statusList = StatusList();
 
-  onChange(value: any) {}
+  onChange(value: TaskStatus) {}
   onTouched() {}
-  writeValue(value: any): void {
-    this.value = value;
+  writeValue(value: TaskStatus): void {
+    this.value = value || TaskStatus.NotStarted;
   }
   registerOnChange(fn: any): void {
     this.onChange = fn;
@@ -35,8 +35,10 @@ export class StatusRadioComponent implements ControlValueAccessor {
   }
 
   selectStatus(status: TaskStatus) {
+    console.log(this.value);
     this.value = status;
-    this.onChange(status);
+
+    this.onChange(this.value);
     this.onTouched();
   }
 }
