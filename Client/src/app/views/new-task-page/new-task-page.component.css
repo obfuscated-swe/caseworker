@@ -12,3 +12,8 @@
 .new-task-btn:hover {
     background-color: hsl(208, 73%, 30%);
 }
+
+.case-number {
+    color: #505a5f;
+    border-color: #b1b4b6;
+}

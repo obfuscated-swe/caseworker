@@ -14,3 +14,13 @@ export enum TaskStatus {
   Completed = 'Completed',
   Cancelled = 'Cancelled',
 }
+
+export function StatusList() {
+  return [
+    TaskStatus.NotStarted,
+    TaskStatus.InProgress,
+    TaskStatus.OnHold,
+    TaskStatus.Completed,
+    TaskStatus.Cancelled,
+  ];
+}

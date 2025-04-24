@@ -7,7 +7,7 @@ import { DateTime } from 'luxon';
 export class DatePipe implements PipeTransform {
   transform(value: Date, format: string = 'MMM d, y, h:mm a'): string {
     const pastFormat = 'MMM d, y';
-    const soonFormat = 'h:mm, MMM d';
+    const soonFormat = 'H:mm, MMM d';
 
     const parsedDate = DateTime.fromJSDate(value);
     const now = DateTime.now();

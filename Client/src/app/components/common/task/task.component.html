@@ -5,8 +5,86 @@
     <div class="govuk-body">{{ task.dueDate | dynamicDate }}</div>
   </div>
   <p class="govuk-body">{{ task.description }}</p>
+  @if (showError) {
+  <div class="error-message govuk-error-message" role="alert" aria-live="assertive">
+    Unable to update task status. Please try again.
+  </div>
+  }
   <div class="task-footer">
-    <div class="govuk-body status-{{ task.status }}">{{ task.status | statusPrinter }}</div>
+    <div class="status-container status-item" (click)="toggleStatusOptions()">
+      <div class="govuk-body status status-{{ task.status }}">
+        {{ task.status | statusPrinter }}
+      </div>
+
+      @if(showSpinner) {
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="24px"
+        viewBox="0 -960 960 960"
+        width="24px"
+        fill="#000000"
+        class="icon-color spin"
+      >
+        <path
+          d="M480-46q-90 0-168.97-34.08-78.97-34.07-137.92-93.03-58.96-58.95-93.03-137.92Q46-390 46-480q0-90.14 34.06-168.88 34.07-78.74 93-137.93Q232-846 311-880t169-34v126q-128.01 0-218.01 89.99-89.99 89.99-89.99 218T261.99-262q89.99 90 218 90T698-261.99q90-90 90-218.01h126q0 90-34.06 169.01-34.07 79.01-93 138Q728-114 649.14-80 570.28-46 480-46Z"
+        />
+      </svg>
+
+      } @else if(showConfirmation) {
+
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="24px"
+        viewBox="0 -960 960 960"
+        width="24px"
+        fill="#000000"
+        class="icon-color"
+      >
+        <path
+          d="M382-232.35 146.35-468l64.89-64.89L382-362.13l366.76-366.76L813.65-664 382-232.35Z"
+        />
+      </svg>
+
+      } @else if(showError) {
+
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="24px"
+        viewBox="0 -960 960 960"
+        width="24px"
+        fill="#000000"
+        class="error"
+      >
+        <path
+          d="M256-192.35 192.35-256l224-224-224-224L256-767.65l224 224 224-224L767.65-704l-224 224 224 224L704-192.35l-224-224-224 224Z"
+        />
+      </svg>
+      } @else {
+
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="24px"
+        viewBox="0 -960 960 960"
+        width="24px"
+        fill="#000000"
+        class="icon-color toggle-icon {{ showStatusOptions ? 'rotate' : '' }}"
+      >
+        <path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z" />
+      </svg>
+
+      } @if (showStatusOptions) {
+      <div class="status-options">
+        @for (status of statusList; track $index) { @if (status != task.status) {
+        <div class="status-item" (click)="updateStatus(status)">
+          <div class="govuk-body status status-{{ status }}">
+            {{ status | statusPrinter }}
+          </div>
+        </div>
+        } }
+      </div>
+      }
+    </div>
+
     <div class="govuk-body task-case-number">Case Number: {{ task.caseNumber }}</div>
   </div>
 </div>

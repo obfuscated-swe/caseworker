@@ -2,6 +2,7 @@ body {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    overflow-y: scroll;
 }
 
 /**
@@ -9,11 +10,14 @@ body {
  */
 
 :root {
-    --status-not-started: #b1b4b6;
+    --status-not-started: #505a5f;
     --status-in-progress: #f47738;
     --status-on-hold: #1d70b8;
     --status-completed: #00703c;
     --status-cancelled: #d4351c;
+
+    --error: #d4351c;
+    --info: #505a5f;
 }
 
 .status-NotStarted {

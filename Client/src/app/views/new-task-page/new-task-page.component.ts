@@ -1,28 +1,29 @@
 import { Component, inject } from '@angular/core';
-import { StatusSelectorComponent } from '../../components/common/status-selector/status-selector.component';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Task, TaskStatus } from '../../types/task';
 import { TaskService } from '../../services/task.service';
+import { TaskComponent } from '../../components/common/task/task.component';
+import { StatusRadioComponent } from '../../components/common/status-radio/status-radio.component';
 
 @Component({
   selector: 'app-new-task-page',
   standalone: true,
-  imports: [StatusSelectorComponent, FormsModule],
+  imports: [StatusRadioComponent, FormsModule],
   templateUrl: './new-task-page.component.html',
   styleUrl: './new-task-page.component.css',
 })
 export class NewTaskPageComponent {
-  selectedStatus: TaskStatus = TaskStatus.NotStarted;
+  errorMessage: string | null = null;
+  newTask: Task | null = null;
 
+  selectedStatus: TaskStatus = TaskStatus.NotStarted;
   taskService: TaskService = inject(TaskService);
 
   submitTask(form: NgForm) {
-    console.log(form);
-
     if (form.valid) {
       const task: Task = {
         id: 0,
-        caseNumber: Math.floor(Math.random() * 100000 + 100000),
+        caseNumber: form.value.caseNumber,
         title: form.value.title,
         description: form.value.description,
         status: form.value.status,
@@ -31,16 +32,22 @@ export class NewTaskPageComponent {
 
       this.taskService.postTask(task).subscribe({
         next: (response) => {
+          this.newTask = task;
           console.log('Task created successfully:', response);
         },
         error: (err) => {
+          this.errorMessage = 'Failed to create task. Please try again.';
           console.error('Failed to create task:', err);
         },
       });
-
-      console.log(task);
     } else {
-      console.log('Form is invalid');
+      this.errorMessage = 'Form is missing required fields.';
+
+      for (const control in form.controls) {
+        if (form.controls[control].invalid) {
+          document.getElementById(control)?.classList.add('govuk-form-group--error');
+        }
+      }
     }
   }
 }

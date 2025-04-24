@@ -1,10 +1,20 @@
 @if (error) {
 <error-no-connection></error-no-connection>
+
 } @else if (loading) {
-<p class="govuk-heading-s">Loading..</p>
+<p class="govuk-heading-s">Loading tasks...</p>
+
 } @else if (tasks.length === 0) {
-<p class="govuk-heading-s">No tasks available</p>
-}@for (task of tasks; track $index) {
+<generic-error
+  [errorLevel]="'info'"
+  [errorTitle]="'No tasks'"
+  [errorMessage]="'There are currently no tasks. Use the new task button to add a task.'"
+></generic-error>
+
+} @else if (filteredTasks.length === 0) {
+<empty-filter></empty-filter>
+
+}@for (task of filteredTasks; track $index) {
 <task [task]="task"></task>
 <div class="divider"></div>
 }

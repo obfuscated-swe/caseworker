@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 @Component({
   selector: 'task-search',
@@ -6,4 +6,10 @@ import { Component } from '@angular/core';
   templateUrl: './search.component.html',
   styleUrl: './search.component.css',
 })
-export class SearchComponent {}
+export class SearchComponent {
+  search: string = '';
+
+  inputChanged(event: Event): void {
+    this.search = (event.target as HTMLInputElement).value;
+  }
+}

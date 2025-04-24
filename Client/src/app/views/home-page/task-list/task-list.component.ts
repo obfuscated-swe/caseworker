@@ -3,10 +3,12 @@ import { NoConnectionComponent } from '../../../components/error/no-connection/n
 import { Task } from '../../../types/task';
 import { TaskService } from '../../../services/task.service';
 import { TaskComponent } from '../../../components/common/task/task.component';
+import { GenericErrorComponent } from '../../../components/error/generic-error/generic-error.component';
+import { EmptyFilterComponent } from '../../../components/error/empty-filter/empty-filter.component';
 
 @Component({
   selector: 'task-list',
-  imports: [NoConnectionComponent, TaskComponent],
+  imports: [NoConnectionComponent, TaskComponent, GenericErrorComponent, EmptyFilterComponent],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.css',
 })
@@ -14,6 +16,8 @@ export class TaskListComponent {
   error: boolean = false;
   loading: boolean = true;
   tasks: Task[] = [];
+
+  filteredTasks: Task[] = [];
 
   private taskService = inject(TaskService);
 
@@ -26,11 +30,8 @@ export class TaskListComponent {
       next: (res: Task[]) => {
         console.log(res);
         this.loading = false;
-        res = res.sort((a, b) => {
-          return new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime();
-        });
         this.tasks = res;
-        console.log(this.tasks);
+        this.filteredTasks = res;
       },
       error: (err) => {
         console.log(err);

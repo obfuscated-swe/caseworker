@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NewTaskPageComponent } from './new-task-page.component';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('NewTaskPageComponent', () => {
   let component: NewTaskPageComponent;
@@ -8,9 +9,9 @@ describe('NewTaskPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NewTaskPageComponent]
-    })
-    .compileComponents();
+      imports: [NewTaskPageComponent],
+      providers: [provideHttpClient()],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(NewTaskPageComponent);
     component = fixture.componentInstance;

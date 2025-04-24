@@ -1,15 +1,48 @@
 <div>
+  <a href="#" class="govuk-back-link">Back</a>
+  <h1 class="govuk-heading-l">Add a new task</h1>
+
+  @if(errorMessage) {
+  <div class="govuk-error-summary" role="alert" aria-labelledby="error-summary-title" tabindex="-1">
+    <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
+    <div class="govuk-error-summary__body">
+      <p>{{ errorMessage }}</p>
+    </div>
+  </div>
+  } @if(!newTask) {
   <form #taskForm="ngForm" class="govuk-form-group" (ngSubmit)="submitTask(taskForm)">
     <fieldset class="govuk-fieldset">
-      <h1 class="govuk-heading-m">Add a new task</h1>
       <div class="govuk-form-group">
-        <h1 class="govuk-label-wrapper">
-          <label class="govuk-label govuk-label--s" for="title"> Task title </label>
-        </h1>
-        <input class="govuk-input" id="title" name="title" type="text" ngModel required />
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-two-thirds">
+            <div id="title" class="govuk-form-group">
+              <h1 class="govuk-label-wrapper">
+                <label class="govuk-label govuk-label--s" for="title"> Task title </label>
+              </h1>
+              <input class="govuk-input" id="title" name="title" type="text" ngModel required />
+            </div>
+          </div>
+          <div class="govuk-grid-column-one-third">
+            <div id="caseNumber" class="govuk-form-group">
+              <h1 class="govuk-label-wrapper">
+                <label class="govuk-label govuk-label--s case-number" for="caseNumber">
+                  Case Number
+                </label>
+              </h1>
+              <input
+                class="govuk-input case-number"
+                name="caseNumber"
+                type="text"
+                ngModel
+                required
+              />
+            </div>
+          </div>
+        </div>
       </div>
 
       <div
+        id="description"
         class="govuk-form-group govuk-character-count"
         data-module="govuk-character-count"
         data-maxlength="500"
@@ -31,25 +64,38 @@
         </div>
       </div>
 
-      <div class="govuk-form-group">
+      <div id="dueDate" class="govuk-form-group">
         <h1 class="govuk-label-wrapper">
           <label class="govuk-label govuk-label--s" for="due-date"> Task due date </label>
         </h1>
         <input class="govuk-input" name="dueDate" type="datetime-local" ngModel required />
       </div>
 
-      <status-selector
+      <status-radio
         lablel="Task Status"
         name="status"
         [(ngModel)]="selectedStatus"
         type="radios"
-      ></status-selector>
+      ></status-radio>
 
       <div class="button-row">
-        <button type="submit" class="govuk-button new-task-btn" data-module="govuk-button">
+        <button
+          #submitButton
+          id="submit-button"
+          type="submit"
+          class="govuk-button new-task-btn"
+          data-module="govuk-button"
+        >
           Add Task
         </button>
       </div>
     </fieldset>
   </form>
+  } @else {
+  <div class="govuk-panel govuk-panel--confirmation">
+    <h1 class="govuk-panel__title">Task added</h1>
+  </div>
+
+  <a href="/" class="govuk-button new-task-btn">Return to home</a>
+  }
 </div>
