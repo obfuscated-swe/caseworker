@@ -1,10 +1,10 @@
 package uk.gov.hmcts.reform.dev.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.dev.models.Task;
 import uk.gov.hmcts.reform.dev.repositories.TaskRepository;
-
-import java.util.List;
 
 @Service
 public class TaskService {
@@ -23,12 +23,13 @@ public class TaskService {
         return taskRepository.findByCaseNumber(caseNumber).orElse(null);
     }
 
-    public List<Task> getAllTasks() {
-        return taskRepository.findAll();
+    public Page<Task> getAllTasks(int page, int size) {
+        PageRequest pageable = PageRequest.of(page, size);
+        return taskRepository.findAll(pageable);
     }
 
-    public void addTask(Task task) {
-        taskRepository.save(task);
+    public Task addTask(Task task) {
+        return taskRepository.save(task);
     }
 
     public void updateTask(Task task) {

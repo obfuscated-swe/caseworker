@@ -4,13 +4,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.test.context.ActiveProfiles;
 import uk.gov.hmcts.reform.dev.enums.TaskStatus;
 import uk.gov.hmcts.reform.dev.models.Task;
 import uk.gov.hmcts.reform.dev.repositories.TaskRepository;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -29,18 +29,26 @@ public class TaskServiceTests {
         taskRepository.deleteAll();
     }
 
+    Task createTask(int caseNumber, String title, String description, TaskStatus status, LocalDateTime dueDate) {
+        Task task = new Task();
+        task.setCaseNumber(caseNumber);
+        task.setTitle(title);
+        task.setDescription(description);
+        task.setStatus(status);
+        task.setDueDate(dueDate);
+        return task;
+    }
+
     @Test
     void shouldCreateAndGetTask() {
-        Task task = new Task();
-        task.setId(1);
-        task.setCaseNumber(1234);
-        task.setTitle("Test Task");
-        task.setDescription("Test Description");
-        task.setStatus(TaskStatus.NotStarted);
-        task.setDueDate(LocalDateTime.now().plusDays(1));
+        Task task = createTask(1234,
+                               "Test Task",
+                               "This is a test task",
+                               TaskStatus.NotStarted,
+                               LocalDateTime.now());
 
-        taskService.addTask(task);
-        Task retrievedTask = taskService.getTask(1);
+        int taskId = taskService.addTask(task).getId();
+        Task retrievedTask = taskService.getTask(taskId);
 
         assertThat(retrievedTask).isNotNull();
         assertThat(retrievedTask.getTitle()).isEqualTo("Test Task");
@@ -48,12 +56,22 @@ public class TaskServiceTests {
 
     @Test
     void shouldGetAllTasks() {
-        Task task1 = new Task(1, 1234, "Task 1", "Description 1", TaskStatus.NotStarted, LocalDateTime.now());
-        Task task2 = new Task(2, 5678, "Task 2", "Description 2", TaskStatus.InProgress, LocalDateTime.now());
+        Task task1 = createTask(1234,
+                               "Task 1",
+                               "This is a test task",
+                               TaskStatus.NotStarted,
+                               LocalDateTime.now());
+
+        Task task2 = createTask(5678,
+                                "Task 2",
+                                "This is another test task description",
+                                TaskStatus.InProgress,
+                                LocalDateTime.now());
+
         taskService.addTask(task1);
         taskService.addTask(task2);
 
-        List<Task> tasks = taskService.getAllTasks();
+        Page<Task> tasks = taskService.getAllTasks(0, 10);
 
         assertThat(tasks).hasSize(2);
         assertThat(tasks).extracting(Task::getTitle).containsExactlyInAnyOrder("Task 1", "Task 2");
@@ -61,23 +79,41 @@ public class TaskServiceTests {
 
     @Test
     void shouldUpdateTask() {
-        Task task = new Task(1, 1234, "Original Title", "Description", TaskStatus.NotStarted, LocalDateTime.now());
-        taskService.addTask(task);
+        Task task = createTask(2345,
+                               "Test Task Three",
+                               "This is a test task",
+                               TaskStatus.NotStarted,
+                               LocalDateTime.now());
+
+
+
+        int taskId = taskService.addTask(task).getId();
 
         task.setTitle("Updated Title");
+
         taskService.updateTask(task);
-        Task updatedTask = taskService.getTask(1);
+
+        System.out.println(task.getId() + " " + task.getTitle());
+
+        Task updatedTask = taskService.getTask(taskId);
+
+        assertThat(updatedTask).isNotNull();
 
         assertThat(updatedTask.getTitle()).isEqualTo("Updated Title");
     }
 
     @Test
     void shouldDeleteTask() {
-        Task task = new Task(1, 1234, "Task", "Description", TaskStatus.NotStarted, LocalDateTime.now());
-        taskService.addTask(task);
+        Task task = createTask(2345,
+                               "Test Task Three",
+                               "This is a test task",
+                               TaskStatus.NotStarted,
+                               LocalDateTime.now());
 
-        taskService.deleteTask(1);
+        int taskId = taskService.addTask(task).getId();
 
-        assertThat(taskService.getTask(1)).isNull();
+        taskService.deleteTask(taskId);
+
+        assertThat(taskService.getTask(taskId)).isNull();
     }
 }
