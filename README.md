@@ -2,6 +2,13 @@
 
 For the DTS Development Technical Test
 
+## Features
+
+* Search for tasks
+* Filter task results
+* Inline status updating
+* Pagination
+
 
 ### Server
 
@@ -49,21 +56,38 @@ Runs on `localhost:4200`
 ```bash
 # Make sure you're in the Client directory
 cd Client
-```
-```bash
+# Install all dependencies
 npm install
+# Serve the application
+ng serve
 ```
 
 Run tests
 ```bash
 npm test
-```
-
-```bash
+# or
 npm run test:headless # to run the tests without a browser opening
 ```
 
-Run the client
-```bash
-ng serve
-```
+## About
+
+### Tasks
+
+*Each Task has the following properties*
+
+`id`: *Assigned by the server*\
+`caseNumber`: *The id of the case the task is a part of*\
+`title`\
+`description`\
+`dueDate`\
+`status`
+
+### Task Status Options
+
+*These options can be used to filter tasks*
+
+`NotStarted`\
+`InProgress`\
+`OnHold`\
+`Completed`\
+`Cancelled`

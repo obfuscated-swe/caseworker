@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.dev.controllers;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -9,8 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import uk.gov.hmcts.reform.dev.models.Task;
 import uk.gov.hmcts.reform.dev.services.TaskService;
-
-import java.util.List;
 
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -39,22 +38,19 @@ public class TaskController {
     }
 
     @GetMapping(value = "/all", produces = "application/json")
-    public ResponseEntity<List<Task>> getAllTasks() {
-        logger.info("Fetching all tasks");
-        List<Task> tasks = taskService.getAllTasks();
+    public ResponseEntity<Page<Task>> getAllTasks(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+
+        logger.info("Fetching all tasks with pagination: page={}, size={}", page, size);
+        Page<Task> tasks = taskService.getAllTasks(page, size);
+
         return ResponseEntity.ok(tasks);
     }
 
     @PostMapping(value = "/add", produces = "application/json")
     public ResponseEntity<Void> addTask(@Valid @RequestBody Task task) {
         logger.info("Adding new task: {}", task);
-        logger.info("Task CaseNumber: {}", task.getCaseNumber());
-
-        Task exists = taskService.getTaskByCaseNumber(task.getCaseNumber());
-        if (exists != null) {
-            logger.error("Task with CaseNumber {} already exists", task.getCaseNumber());
-            return ResponseEntity.status(409).build();
-        }
 
         taskService.addTask(task);
 

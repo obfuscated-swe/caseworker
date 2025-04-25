@@ -5,12 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import uk.gov.hmcts.reform.dev.TaskTestConfig;
 import uk.gov.hmcts.reform.dev.services.TaskService;
-
-import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
@@ -30,7 +29,7 @@ class TaskControllerTests {
     @DisplayName("Should welcome upon root request with 200 response code")
     @Test
     void shouldReturnListFromAllEndpoint() throws Exception {
-        when(taskService.getAllTasks()).thenReturn(Collections.emptyList());
+        when(taskService.getAllTasks(0, 20)).thenReturn(Page.empty());
 
         MvcResult response = mockMvc.perform(get("/api/tasks/all"))
                 .andExpect(status().isOk())
