@@ -17,14 +17,28 @@
     color: #b1b4b6;
 }
 
-.status {
+.task-body {
+    padding-bottom: 1rem;
+}
+
+.marginless {
     margin: 0;
+}
+
+.current-status {
+    /* background-color: #f3f2f1; */
+    padding: 0.4rem;
+    width: 8rem;
 }
 
 .status-item {
     background-color: #f3f2f1;
-    padding: 0.5rem;
+    padding: 0.4rem;
     width: 8rem;
+}
+
+.status-dropdown {
+    background-color: #f3f2f1;
 }
 
 .status-container {
@@ -46,16 +60,18 @@
 }
 
 
+.current-status:hover,
 .status-item:hover {
     background-color: #e3e3e3;
 }
 
 .toggle-icon {
-    transition: transform 0.2s ease-in-out;
+    transform: rotate(-90deg);
+    transition: transform 0.15s ease-in-out;
 }
 
 .rotate {
-    transform: rotate(-90deg);
+    transform: rotate(0deg);
 }
 
 .icon-color {

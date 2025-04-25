@@ -3,6 +3,7 @@ import { catchError, map, Observable, throwError } from 'rxjs';
 import { ApiService } from './api.service';
 import { Task } from '../types/task';
 import { ServerURL } from '../../env/environment';
+import { Page } from '../types/page';
 
 @Injectable({
   providedIn: 'root',
@@ -15,10 +16,13 @@ export class TaskService {
       .get(`${ServerURL}/tasks/id=${id}`)
       .pipe(map((task: Task) => this.validator(task))) as Observable<Task>;
   }
-  getAllTasks() {
+
+  getAllTasks(page = 0, size = 10) {
     return this.apiService
-      .get(`${ServerURL}/tasks/all`)
-      .pipe(map((tasks: Task[]) => this.validateTasks(tasks))) as Observable<Task[]>;
+      .get(`${ServerURL}/tasks/all?page=${page}&size=${size}`)
+      .pipe(map((pagedTasks: Page<Task>) => this.validatePagedTasks(pagedTasks))) as Observable<
+      Page<Task>
+    >;
   }
 
   postTask(body: any) {
@@ -45,8 +49,10 @@ export class TaskService {
     ) as Observable<void>;
   }
 
-  private validateTasks(tasks: Task[]): Task[] {
-    return tasks.map((task) => this.validator(task));
+  private validatePagedTasks(pagedTasks: Page<Task>): Page<Task> {
+    const tasks: Task[] = pagedTasks.content.map((task) => this.validator(task));
+    pagedTasks.content = tasks;
+    return pagedTasks;
   }
 
   /**

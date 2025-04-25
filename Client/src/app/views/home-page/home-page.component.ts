@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { TaskService } from '../../services/task.service';
 import { TaskListComponent } from './task-list/task-list.component';
 import { TaskFiltersComponent } from './task-filters/task-filters.component';
+import { PaginationComponent } from '../../components/common/pagination/pagination.component';
 
 @Component({
   selector: 'app-home-page',

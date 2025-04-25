@@ -18,3 +18,9 @@
 <task [task]="task"></task>
 <div class="divider"></div>
 }
+
+<pagination
+  [currentPage]="currentPage"
+  [totalPages]="totalPages"
+  (pageChange)="pageChanged($event)"
+></pagination>

@@ -1,18 +1,20 @@
 @if (task) {
 <div class="task">
   <div class="task-header">
-    <h3 class="govuk-heading-m">{{ task.title }}</h3>
+    <h3 class="govuk-heading-s">{{ task.title }}</h3>
     <div class="govuk-body">{{ task.dueDate | dynamicDate }}</div>
   </div>
-  <p class="govuk-body">{{ task.description }}</p>
+  <div class="task-body">
+    <p class="govuk-body">{{ task.description }}</p>
+  </div>
   @if (showError) {
   <div class="error-message govuk-error-message" role="alert" aria-live="assertive">
     Unable to update task status. Please try again.
   </div>
   }
   <div class="task-footer">
-    <div class="status-container status-item" (click)="toggleStatusOptions()">
-      <div class="govuk-body status status-{{ task.status }}">
+    <div class="status-container current-status" (click)="toggleStatusOptions()">
+      <div class="govuk-body marginless status status-{{ task.status }}">
         {{ task.status | statusPrinter }}
       </div>
 
@@ -76,7 +78,7 @@
       <div class="status-options">
         @for (status of statusList; track $index) { @if (status != task.status) {
         <div class="status-item" (click)="updateStatus(status)">
-          <div class="govuk-body status status-{{ status }}">
+          <div class="govuk-body marginless status status-{{ status }}">
             {{ status | statusPrinter }}
           </div>
         </div>
@@ -85,7 +87,7 @@
       }
     </div>
 
-    <div class="govuk-body task-case-number">Case Number: {{ task.caseNumber }}</div>
+    <div class="govuk-body marginless task-case-number">Case Number: {{ task.caseNumber }}</div>
   </div>
 </div>
 }
