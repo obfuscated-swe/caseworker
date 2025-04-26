@@ -1,7 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { NoConnectionComponent } from '../../../components/error/no-connection/no-connection.component';
 import { Task } from '../../../types/task';
 import { Page } from '../../../types/page';
+import { Filter } from '../../../types/filter';
 import { TaskService } from '../../../services/task.service';
 import { TaskComponent } from '../../../components/common/task/task.component';
 import { GenericErrorComponent } from '../../../components/error/generic-error/generic-error.component';
@@ -21,11 +22,11 @@ import { PaginationComponent } from '../../../components/common/pagination/pagin
   styleUrl: './task-list.component.css',
 })
 export class TaskListComponent {
+  @Input() public filter: Filter = {} as Filter;
+
   public error: boolean = false;
   public loading: boolean = true;
   public tasks: Task[] = [];
-  public filteredTasks: Task[] = [];
-
   public currentPage: number = 1;
   public totalPages: number = 1;
 
@@ -38,14 +39,22 @@ export class TaskListComponent {
     this.getAllTasks(this.page, this.size);
   }
 
-  getAllTasks(page: number, size: number): void {
-    this.taskService.getAllTasks(page, size).subscribe({
+  ngOnChanges(): void {
+    console.log('Filter changed:', this.filter);
+    if (this.filter) {
+      this.getAllTasks(this.page, this.size, this.filter);
+    } else {
+      this.getAllTasks(this.page, this.size);
+    }
+  }
+
+  getAllTasks(page: number, size: number, filter: Filter = {} as Filter): void {
+    this.taskService.getAllTasks(page, size, filter.statuses).subscribe({
       next: (res: Page<Task>) => {
         console.log(res);
         this.loading = false;
 
         this.tasks = res.content;
-        this.filteredTasks = res.content;
 
         this.currentPage = res.page.number + 1;
         this.totalPages = res.page.totalPages;
@@ -59,6 +68,6 @@ export class TaskListComponent {
   }
 
   pageChanged(page: number): void {
-    this.getAllTasks(page - 1, this.size);
+    this.getAllTasks(page - 1, this.size, this.filter);
   }
 }

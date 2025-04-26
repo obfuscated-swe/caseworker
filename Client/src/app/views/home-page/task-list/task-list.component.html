@@ -11,10 +11,10 @@
   [errorMessage]="'There are currently no tasks. Use the new task button to add a task.'"
 ></generic-error>
 
-} @else if (filteredTasks.length === 0) {
+} @else if (tasks.length === 0) {
 <empty-filter></empty-filter>
 
-}@for (task of filteredTasks; track $index) {
+}@for (task of tasks; track $index) {
 <task [task]="task"></task>
 <div class="divider"></div>
 }

@@ -18,12 +18,12 @@ export class PaginationComponent {
     this.pageNumbers = this.pages();
   }
 
+  /**
+   * Algorithm to calculate the page numbers given the current page and total pages.
+   * @returns An array of integer page numbers where 0 is a separator.
+   */
   pages(): number[] {
     const pages: number[] = [];
-
-    // for (let i = 1; i <= this.totalPages; i++) {
-    //   pages.push(i);
-    // }
 
     pages.push(1);
 
@@ -62,6 +62,7 @@ export class PaginationComponent {
       this.pageChange.emit(page);
     }
   }
+
   incrementPage(): void {
     if (this.currentPage < this.totalPages) {
       const page = this.currentPage + 1;

@@ -16,13 +16,19 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   ],
 })
 export class SearchComponent implements ControlValueAccessor {
-  search: string = '';
+  public search: string = '';
+  public searchTypeValue: string = 'id';
+  public label: string = 'Search Task IDs';
 
   onChange = (value: string) => {};
   onTouched = () => {};
 
-  inputChanged(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
+  selectChaged(value: string): void {
+    this.searchTypeValue = value;
+    this.label = value === 'id' ? 'Search Task IDs' : 'Search Task Case Numbers';
+  }
+
+  inputChanged(value: string): void {
     this.search = value;
     this.onChange(value);
   }

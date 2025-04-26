@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { ApiService } from './api.service';
-import { Task } from '../types/task';
+import { Task, TaskStatus } from '../types/task';
 import { ServerURL } from '../../env/environment';
 import { Page } from '../types/page';
+import { Filter } from '../types/filter';
 
 @Injectable({
   providedIn: 'root',
@@ -17,9 +18,19 @@ export class TaskService {
       .pipe(map((task: Task) => this.validator(task))) as Observable<Task>;
   }
 
-  getAllTasks(page = 0, size = 10) {
+  getAllTasks(page = 0, size = 10, statusList: TaskStatus[] = []) {
+    const params = new URLSearchParams();
+    params.set('page', page.toString());
+    params.set('size', size.toString());
+    if (statusList.length > 0) {
+      params.set('statusList', statusList.join(','));
+    }
+    const url = `${ServerURL}/tasks/all?${params.toString()}`;
+
+    console.log('URL:', url);
+
     return this.apiService
-      .get(`${ServerURL}/tasks/all?page=${page}&size=${size}`)
+      .get(url)
       .pipe(map((pagedTasks: Page<Task>) => this.validatePagedTasks(pagedTasks))) as Observable<
       Page<Task>
     >;

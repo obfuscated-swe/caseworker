@@ -1,12 +1,25 @@
 <div class="govuk-form-group">
   <h1 class="govuk-label-wrapper">
-    <label class="govuk-label govuk-label--s" for="event-name"> Search Tasks </label>
+    <label class="govuk-label govuk-label--s" for="event-name">{{ label }}</label>
   </h1>
-  <input
-    class="govuk-input"
-    (input)="inputChanged($event)"
-    id="event-name"
-    name="eventName"
-    type="text"
-  />
+  <div class="inline-form-group">
+    <select
+      #searchType
+      (change)="selectChaged(searchType.value)"
+      class="govuk-select search-type"
+      id="sort"
+      name="sort"
+    >
+      <option value="caseNumber">CN</option>
+      <option value="id" selected>ID</option>
+    </select>
+    <input
+      #searchInput
+      class="govuk-input"
+      (input)="inputChanged(searchInput.value)"
+      id="event-name"
+      name="eventName"
+      type="number"
+    />
+  </div>
 </div>

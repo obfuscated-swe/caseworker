@@ -13,9 +13,9 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-one-third left-column">
-    <task-filters></task-filters>
+    <task-filters (newFilter)="filterChanged($event)"></task-filters>
   </div>
   <div class="govuk-grid-column-two-thirds right-column">
-    <task-list></task-list>
+    <task-list [filter]="filter"></task-list>
   </div>
 </div>
