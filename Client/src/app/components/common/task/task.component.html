@@ -1,0 +1,13 @@
+@if (task) {
+<div class="task">
+  <div class="task-header">
+    <h3 class="govuk-heading-m">{{ task.title }}</h3>
+    <div class="govuk-body">{{ task.dueDate | dynamicDate }}</div>
+  </div>
+  <p class="govuk-body">{{ task.description }}</p>
+  <div class="task-footer">
+    <div class="govuk-body status-{{ task.status }}">{{ task.status | statusPrinter }}</div>
+    <div class="govuk-body task-case-number">Case Number: {{ task.caseNumber }}</div>
+  </div>
+</div>
+}

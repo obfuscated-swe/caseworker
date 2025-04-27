@@ -1,0 +1,21 @@
+<h2 class="govuk-heading-m">HMCTS Task Manager</h2>
+
+<div class="button-row">
+  <button
+    type="button"
+    class="govuk-button new-task-btn"
+    data-module="govuk-button"
+    (click)="redirectToNew()"
+  >
+    New Task
+  </button>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-third left-column">
+    <task-filters></task-filters>
+  </div>
+  <div class="govuk-grid-column-two-thirds">
+    <task-list></task-list>
+  </div>
+</div>
