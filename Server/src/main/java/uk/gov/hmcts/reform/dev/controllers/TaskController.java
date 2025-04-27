@@ -8,10 +8,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+import uk.gov.hmcts.reform.dev.enums.TaskStatus;
 import uk.gov.hmcts.reform.dev.models.Task;
 import uk.gov.hmcts.reform.dev.services.TaskService;
 
 import static org.springframework.http.ResponseEntity.ok;
+
+import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -40,10 +43,14 @@ public class TaskController {
     @GetMapping(value = "/all", produces = "application/json")
     public ResponseEntity<Page<Task>> getAllTasks(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(required = false) List<TaskStatus> statuses,
+            @RequestParam(required = false) Integer caseNumber,
+            @RequestParam(defaultValue = "ascending") String order) {
 
-        logger.info("Fetching all tasks with pagination: page={}, size={}", page, size);
-        Page<Task> tasks = taskService.getAllTasks(page, size);
+        logger.info("Fetching all tasks: page={}, size={} statuses={} caseNumber={} order={}",
+                page, size, statuses, caseNumber, order);
+        Page<Task> tasks = taskService.getAllTasks(page, size, statuses, caseNumber, order);
 
         return ResponseEntity.ok(tasks);
     }
