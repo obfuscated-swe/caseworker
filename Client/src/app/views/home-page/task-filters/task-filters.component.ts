@@ -3,7 +3,7 @@ import { SearchComponent } from '../../../components/common/search/search.compon
 import { StatusSelectorComponent } from '../../../components/common/status-selector/status-selector.component';
 import { FormsModule, NgForm } from '@angular/forms';
 import { StatusList, TaskStatus } from '../../../types/task';
-import { Filter } from '../../../types/filter';
+import { Filter, SearchObject } from '../../../types/filter';
 
 @Component({
   selector: 'task-filters',
@@ -14,25 +14,21 @@ import { Filter } from '../../../types/filter';
 export class TaskFiltersComponent {
   @Output() newFilter: EventEmitter<Filter> = new EventEmitter<Filter>();
 
-  selectedStatus: TaskStatus[] = StatusList();
+  public selectedStatus: TaskStatus[] = StatusList();
+  public searchValue: SearchObject = { type: 'id', value: '' };
+  public orderValue: string = 'ascending';
 
   submitFilter(form: NgForm) {
-    console.log(form.value);
-
     const filter: Filter = {
-      order: form.value.order || 'closest',
-      search: form.value.search,
+      order: form.value.order || 'ascending',
+      search: {
+        type: form.value.search.type,
+        value: form.value.search.value,
+      },
       statuses: this.selectedStatus,
     };
 
+    console.log(filter);
     this.newFilter.emit(filter);
-  }
-
-  emptyFilter(): Filter {
-    return {
-      order: 'closest',
-      search: '',
-      statuses: [],
-    };
   }
 }

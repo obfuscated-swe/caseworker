@@ -5,12 +5,12 @@
 }
 
 .new-task-btn {
-    background-color: hsl(208, 73%, 42%);
+    background-color: var(--accent);
 }
 
 
 .new-task-btn:hover {
-    background-color: hsl(208, 73%, 30%);
+    background-color: var(--accent-hover);
 }
 
 .case-number {

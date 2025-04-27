@@ -35,21 +35,13 @@ export class TaskListComponent {
 
   private taskService = inject(TaskService);
 
-  ngOnInit(): void {
-    this.getAllTasks(this.page, this.size);
-  }
-
   ngOnChanges(): void {
     console.log('Filter changed:', this.filter);
-    if (this.filter) {
-      this.getAllTasks(this.page, this.size, this.filter);
-    } else {
-      this.getAllTasks(this.page, this.size);
-    }
+    this.getAllTasks(this.page, this.size, this.filter);
   }
 
   getAllTasks(page: number, size: number, filter: Filter = {} as Filter): void {
-    this.taskService.getAllTasks(page, size, filter.statuses).subscribe({
+    this.taskService.getAllTasks(page, size, filter).subscribe({
       next: (res: Page<Task>) => {
         console.log(res);
         this.loading = false;

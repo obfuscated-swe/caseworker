@@ -7,8 +7,8 @@
       #searchType
       (change)="selectChaged(searchType.value)"
       class="govuk-select search-type"
-      id="sort"
-      name="sort"
+      id="search-type"
+      name="taskSearchType"
     >
       <option value="caseNumber">CN</option>
       <option value="id" selected>ID</option>
@@ -17,8 +17,8 @@
       #searchInput
       class="govuk-input"
       (input)="inputChanged(searchInput.value)"
-      id="event-name"
-      name="eventName"
+      id="task-search"
+      name="taskSearch"
       type="number"
     />
   </div>

@@ -35,7 +35,6 @@ export class StatusRadioComponent implements ControlValueAccessor {
   }
 
   selectStatus(status: TaskStatus) {
-    console.log(this.value);
     this.value = status;
 
     this.onChange(this.value);

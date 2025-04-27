@@ -4,5 +4,14 @@
 
 .search-type {
     min-width: 4rem;
-    background-color: transparent;
+    background-color: var(--light-accent);
+    cursor: pointer;
+}
+
+.search-type:hover {
+    background-color: var(--light-accent-hover);
+}
+
+.search-type:focus {
+    background-color: var(--light-accent-hover);
 }

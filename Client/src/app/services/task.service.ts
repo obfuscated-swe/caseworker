@@ -18,16 +18,16 @@ export class TaskService {
       .pipe(map((task: Task) => this.validator(task))) as Observable<Task>;
   }
 
-  getAllTasks(page = 0, size = 10, statusList: TaskStatus[] = []) {
+  getAllTasks(page = 0, size = 10, filter: Filter = {} as Filter) {
     const params = new URLSearchParams();
     params.set('page', page.toString());
     params.set('size', size.toString());
-    if (statusList.length > 0) {
-      params.set('statusList', statusList.join(','));
-    }
+
+    this.parseFilter(params, filter);
+
     const url = `${ServerURL}/tasks/all?${params.toString()}`;
 
-    console.log('URL:', url);
+    console.log(url);
 
     return this.apiService
       .get(url)
@@ -64,6 +64,21 @@ export class TaskService {
     const tasks: Task[] = pagedTasks.content.map((task) => this.validator(task));
     pagedTasks.content = tasks;
     return pagedTasks;
+  }
+
+  private parseFilter(params: URLSearchParams, filter: Filter): void {
+    if (filter.order) {
+      params.set('order', filter.order);
+    }
+
+    if (filter.search && filter.search.value) {
+      params.set(filter.search.type, filter.search.value);
+    }
+
+    if (filter.statuses && filter.statuses.length > 0) {
+      const statuses = filter.statuses.map((status) => status.toString()).join(',');
+      params.set('statuses', statuses);
+    }
   }
 
   /**

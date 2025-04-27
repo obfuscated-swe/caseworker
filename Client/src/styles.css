@@ -18,6 +18,12 @@ body {
 
     --error: #d4351c;
     --info: #505a5f;
+
+    --accent: #1d70b9;
+    --accent-hover: #155084;
+
+    --light-accent: #bddbf5;
+    --light-accent-hover: #7ab6eb;
 }
 
 .status-NotStarted {

@@ -13,3 +13,8 @@
     align-items: center;
 
 }
+
+.order-selector {
+    width: 100%;
+    min-width: initial;
+}
