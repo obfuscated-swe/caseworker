@@ -14,7 +14,7 @@ export class TaskService {
 
   getTask(id: number) {
     return this.apiService
-      .get(`${ServerURL}/tasks/id=${id}`)
+      .get(`${ServerURL}/tasks/?id=${id}`)
       .pipe(map((task: Task) => this.validator(task))) as Observable<Task>;
   }
 
@@ -26,8 +26,6 @@ export class TaskService {
     this.parseFilter(params, filter);
 
     const url = `${ServerURL}/tasks/all?${params.toString()}`;
-
-    console.log(url);
 
     return this.apiService
       .get(url)

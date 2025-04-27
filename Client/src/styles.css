@@ -24,6 +24,9 @@ body {
 
     --light-accent: #bddbf5;
     --light-accent-hover: #7ab6eb;
+
+    --white: #ffffff;
+    --black: #0b0c0c;
 }
 
 .status-NotStarted {

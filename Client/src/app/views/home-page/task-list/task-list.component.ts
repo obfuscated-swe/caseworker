@@ -36,11 +36,29 @@ export class TaskListComponent {
   private taskService = inject(TaskService);
 
   ngOnChanges(): void {
-    console.log('Filter changed:', this.filter);
-    this.getAllTasks(this.page, this.size, this.filter);
+    this.getTasks(this.page, this.size, this.filter);
   }
 
-  getAllTasks(page: number, size: number, filter: Filter = {} as Filter): void {
+  getTasks(page: number, size: number, filter: Filter = {} as Filter): void {
+    if (filter.search && filter.search.type === 'id' && filter.search.value) {
+      this.taskService.getTask(parseInt(filter.search.value)).subscribe({
+        next: (res: Task) => {
+          console.log(res);
+          this.loading = false;
+          this.tasks = [res];
+          this.currentPage = 1;
+          this.totalPages = 1;
+        },
+        error: (err) => {
+          console.log(err);
+          this.loading = false;
+          this.error = true;
+          this.tasks = [];
+        },
+      });
+      return;
+    }
+
     this.taskService.getAllTasks(page, size, filter).subscribe({
       next: (res: Page<Task>) => {
         console.log(res);
@@ -55,11 +73,12 @@ export class TaskListComponent {
         console.log(err);
         this.loading = false;
         this.error = true;
+        this.tasks = [];
       },
     });
   }
 
   pageChanged(page: number): void {
-    this.getAllTasks(page - 1, this.size, this.filter);
+    this.getTasks(page - 1, this.size, this.filter);
   }
 }

@@ -1,6 +1,5 @@
 import { Component, inject, Input } from '@angular/core';
 import { StatusList, Task, TaskStatus } from '../../../types/task';
-import { CommonModule } from '@angular/common';
 import { DatePipe } from '../../../pipes/date.pipe';
 import { StatusPrinterPipe } from '../../../pipes/status-printer.pipe';
 import { TaskService } from '../../../services/task.service';
@@ -31,11 +30,12 @@ export class TaskComponent {
     if (this.task) {
       this.task.status = status;
 
+      // Optional delay to show the spinner for a minimum time
       await sleep(100);
 
       this.taskService.putTask(this.task).subscribe({
         next: (res) => {
-          console.log('Task updated successfully:', res);
+          console.log('Task updated successfully');
           this.showSpinner = false;
           this.showConfirmation = true;
           if (this.showError) this.showError = false;
@@ -51,8 +51,26 @@ export class TaskComponent {
       });
     }
   }
+
+  /**
+   *
+   * @param event Keyboard event
+   * @param fn function to call when the Enter key is pressed
+   */
+  onEnter(event: KeyboardEvent, fn: () => void) {
+    if (event.key === 'Enter') {
+      fn();
+    }
+  }
 }
 
+/**
+ * Used so that the loading spinner can be shown on fast connections
+ * This can be removed.
+ *
+ * @param ms How long to sleep in milliseconds
+ * @returns A promise that resolves after the specified time
+ */
 async function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }

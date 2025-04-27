@@ -13,7 +13,12 @@
   </div>
   }
   <div class="task-footer">
-    <div class="status-container current-status" (click)="toggleStatusOptions()">
+    <div
+      tabindex="0"
+      class="status-container current-status"
+      (keypress)="onEnter($event, toggleStatusOptions.bind(this))"
+      (click)="toggleStatusOptions()"
+    >
       <div class="govuk-body marginless status status-{{ task.status }}">
         {{ task.status | statusPrinter }}
       </div>
@@ -77,7 +82,12 @@
       } @if (showStatusOptions) {
       <div class="status-options">
         @for (status of statusList; track $index) { @if (status != task.status) {
-        <div class="status-item" (click)="updateStatus(status)">
+        <div
+          tabindex="0"
+          class="status-item"
+          (keypress)="onEnter($event, updateStatus.bind(this, status))"
+          (click)="updateStatus(status)"
+        >
           <div class="govuk-body marginless status status-{{ status }}">
             {{ status | statusPrinter }}
           </div>

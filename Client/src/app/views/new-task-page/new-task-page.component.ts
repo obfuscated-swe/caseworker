@@ -1,8 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Task, TaskStatus } from '../../types/task';
 import { TaskService } from '../../services/task.service';
-import { TaskComponent } from '../../components/common/task/task.component';
 import { StatusRadioComponent } from '../../components/common/status-radio/status-radio.component';
 
 @Component({
@@ -14,6 +13,7 @@ import { StatusRadioComponent } from '../../components/common/status-radio/statu
 })
 export class NewTaskPageComponent {
   errorMessage: string | null = null;
+  textareaMessage: string = '';
   newTask: Task | null = null;
 
   selectedStatus: TaskStatus = TaskStatus.NotStarted;
@@ -29,8 +29,6 @@ export class NewTaskPageComponent {
         status: form.value.status,
         dueDate: form.value.dueDate,
       };
-
-      console.log('Task to be created:', task);
 
       this.taskService.postTask(task).subscribe({
         next: (response) => {
@@ -51,5 +49,9 @@ export class NewTaskPageComponent {
         }
       }
     }
+  }
+
+  onTextInput(value: string) {
+    if (value.length > 0) this.textareaMessage = 'Current: ' + value.length;
   }
 }
