@@ -4,28 +4,28 @@ import { StatusPrinterPipe } from '../../../pipes/status-printer.pipe';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
-  selector: 'status-selector',
+  selector: 'status-radio',
   imports: [StatusPrinterPipe],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => StatusSelectorComponent),
+      useExisting: forwardRef(() => StatusRadioComponent),
       multi: true,
     },
   ],
-  templateUrl: './status-selector.component.html',
-  styleUrl: './status-selector.component.css',
+  templateUrl: './status-radio.component.html',
+  styleUrl: './status-radio.component.css',
 })
-export class StatusSelectorComponent implements ControlValueAccessor {
+export class StatusRadioComponent implements ControlValueAccessor {
   @Input() lablel: string = 'Filter by status';
 
+  public value: TaskStatus = TaskStatus.NotStarted;
   public statusList = StatusList();
-  public value: TaskStatus[] = [];
 
-  onChange(value: TaskStatus[]) {}
+  onChange(value: TaskStatus) {}
   onTouched() {}
-  writeValue(value: TaskStatus[]): void {
-    this.value = value || StatusList();
+  writeValue(value: TaskStatus): void {
+    this.value = value || TaskStatus.NotStarted;
   }
   registerOnChange(fn: any): void {
     this.onChange = fn;
@@ -35,11 +35,8 @@ export class StatusSelectorComponent implements ControlValueAccessor {
   }
 
   selectStatus(status: TaskStatus) {
-    if (this.value.indexOf(status) !== -1) {
-      this.value.splice(this.value.indexOf(status), 1);
-    } else {
-      this.value.push(status);
-    }
+    this.value = status;
+
     this.onChange(this.value);
     this.onTouched();
   }

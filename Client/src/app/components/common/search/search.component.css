@@ -1,0 +1,17 @@
+.inline-form-group {
+    display: flex;
+}
+
+.search-type {
+    min-width: 4rem;
+    background-color: var(--light-accent);
+    cursor: pointer;
+}
+
+.search-type:hover {
+    background-color: var(--light-accent-hover);
+}
+
+.search-type:focus {
+    background-color: var(--light-accent-hover);
+}

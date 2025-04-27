@@ -14,5 +14,85 @@
 .task-case-number {
 
     font-size: 1rem;
-    color: #888;
+    color: #b1b4b6;
+}
+
+.task-body {
+    padding-bottom: 1rem;
+}
+
+.marginless {
+    margin: 0;
+}
+
+.current-status {
+    /* background-color: #f3f2f1; */
+    padding: 0.4rem;
+    width: 8rem;
+}
+
+.status-item {
+    background-color: #f3f2f1;
+    padding: 0.4rem;
+    width: 8rem;
+}
+
+.status-dropdown {
+    background-color: #f3f2f1;
+}
+
+.status-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    position: relative;
+
+    cursor: pointer;
+}
+
+.status-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+
+    z-index: 5;
+}
+
+
+.current-status:hover,
+.status-item:hover {
+    background-color: #e3e3e3;
+}
+
+.toggle-icon {
+    transform: rotate(-90deg);
+    transition: transform 0.15s ease-in-out;
+}
+
+.rotate {
+    transform: rotate(0deg);
+}
+
+.icon-color {
+    fill: var(--info);
+}
+
+.error {
+    color: var(--error);
+    fill: var(--error);
+}
+
+.spin {
+    animation: spin 0.8s infinite linear;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

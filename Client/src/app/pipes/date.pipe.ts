@@ -5,9 +5,9 @@ import { DateTime } from 'luxon';
   name: 'dynamicDate',
 })
 export class DatePipe implements PipeTransform {
-  transform(value: Date, format: string = 'MMM d, y, h:mm a'): string {
+  transform(value: Date, format: string = 'H:mm, MMM d y'): string {
     const pastFormat = 'MMM d, y';
-    const soonFormat = 'h:mm, MMM d';
+    const soonFormat = 'H:mm, MMM d';
 
     const parsedDate = DateTime.fromJSDate(value);
     const now = DateTime.now();
@@ -19,7 +19,7 @@ export class DatePipe implements PipeTransform {
     const diffInMonths = parsedDate.diff(now, 'months').months;
 
     if (diffInMonths < 12) {
-      return 'Due: ' + parsedDate.toFormat(soonFormat);
+      return parsedDate.toFormat(soonFormat);
     }
     // const diffInHours = parsedDate.diff(now, 'hours').hours;
     // const diffInDays = parsedDate.diff(now, 'days').days;

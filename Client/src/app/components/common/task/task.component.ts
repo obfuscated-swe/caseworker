@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
-import { Task } from '../../../types/task';
+import { Component, inject, Input } from '@angular/core';
+import { StatusList, Task, TaskStatus } from '../../../types/task';
 import { CommonModule } from '@angular/common';
 import { DatePipe } from '../../../pipes/date.pipe';
 import { StatusPrinterPipe } from '../../../pipes/status-printer.pipe';
+import { TaskService } from '../../../services/task.service';
 
 @Component({
   selector: 'task',
@@ -12,4 +13,46 @@ import { StatusPrinterPipe } from '../../../pipes/status-printer.pipe';
 })
 export class TaskComponent {
   @Input() task: Task | null = null;
+
+  private taskService: TaskService = inject(TaskService);
+
+  public showStatusOptions: boolean = false;
+  public statusList = StatusList();
+  public showSpinner: boolean = false;
+  public showConfirmation: boolean = false;
+  public showError: boolean = false;
+
+  toggleStatusOptions() {
+    this.showStatusOptions = !this.showStatusOptions;
+  }
+
+  async updateStatus(status: TaskStatus) {
+    this.showSpinner = true;
+    if (this.task) {
+      this.task.status = status;
+
+      await sleep(100);
+
+      this.taskService.putTask(this.task).subscribe({
+        next: (res) => {
+          console.log('Task updated successfully:', res);
+          this.showSpinner = false;
+          this.showConfirmation = true;
+          if (this.showError) this.showError = false;
+          setTimeout(() => {
+            this.showConfirmation = false;
+          }, 2000);
+        },
+        error: (err) => {
+          console.error('Failed to update task:', err);
+          this.showSpinner = false;
+          this.showError = true;
+        },
+      });
+    }
+  }
+}
+
+async function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }

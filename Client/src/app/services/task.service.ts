@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { ApiService } from './api.service';
-import { Task } from '../types/task';
+import { Task, TaskStatus } from '../types/task';
 import { ServerURL } from '../../env/environment';
+import { Page } from '../types/page';
+import { Filter } from '../types/filter';
 
 @Injectable({
   providedIn: 'root',
@@ -15,10 +17,23 @@ export class TaskService {
       .get(`${ServerURL}/tasks/id=${id}`)
       .pipe(map((task: Task) => this.validator(task))) as Observable<Task>;
   }
-  getAllTasks() {
+
+  getAllTasks(page = 0, size = 10, filter: Filter = {} as Filter) {
+    const params = new URLSearchParams();
+    params.set('page', page.toString());
+    params.set('size', size.toString());
+
+    this.parseFilter(params, filter);
+
+    const url = `${ServerURL}/tasks/all?${params.toString()}`;
+
+    console.log(url);
+
     return this.apiService
-      .get(`${ServerURL}/tasks/all`)
-      .pipe(map((tasks: Task[]) => this.validateTasks(tasks))) as Observable<Task[]>;
+      .get(url)
+      .pipe(map((pagedTasks: Page<Task>) => this.validatePagedTasks(pagedTasks))) as Observable<
+      Page<Task>
+    >;
   }
 
   postTask(body: any) {
@@ -45,8 +60,25 @@ export class TaskService {
     ) as Observable<void>;
   }
 
-  private validateTasks(tasks: Task[]): Task[] {
-    return tasks.map((task) => this.validator(task));
+  private validatePagedTasks(pagedTasks: Page<Task>): Page<Task> {
+    const tasks: Task[] = pagedTasks.content.map((task) => this.validator(task));
+    pagedTasks.content = tasks;
+    return pagedTasks;
+  }
+
+  private parseFilter(params: URLSearchParams, filter: Filter): void {
+    if (filter.order) {
+      params.set('order', filter.order);
+    }
+
+    if (filter.search && filter.search.value) {
+      params.set(filter.search.type, filter.search.value);
+    }
+
+    if (filter.statuses && filter.statuses.length > 0) {
+      const statuses = filter.statuses.map((status) => status.toString()).join(',');
+      params.set('statuses', statuses);
+    }
   }
 
   /**

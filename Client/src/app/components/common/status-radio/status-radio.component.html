@@ -5,21 +5,19 @@
     </legend>
 
     @for (status of statusList; track $index) {
-    <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
-      <div class="govuk-checkboxes__item">
+
+    <div class="govuk-radios govuk-radios--small" data-module="govuk-radios">
+      <div class="govuk-radios__item">
         <input
-          class="govuk-checkboxes__input"
-          id="{{ status }}-checkboxes-{{ $index }}"
-          name="status-checkboxes"
-          type="checkbox"
+          class="govuk-radios__input"
+          id="{{ status }}-radio-{{ $index }}"
+          name="status-radio"
+          type="radio"
           value="{{ status }}"
-          [checked]="true"
+          [checked]="true ? $index === 0 : false"
           (change)="selectStatus(status)"
         />
-        <label
-          class="govuk-label govuk-checkboxes__label"
-          for="{{ status }}-checkboxes-{{ $index }}"
-        >
+        <label class="govuk-label govuk-radios__label" for="{{ status }}-radio-{{ $index }}">
           {{ status | statusPrinter }}
         </label>
       </div>

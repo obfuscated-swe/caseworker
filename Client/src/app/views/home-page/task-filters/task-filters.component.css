@@ -1,0 +1,20 @@
+.apply-btn {
+    background-color: hsl(208, 73%, 42%);
+    width: 50%;
+}
+
+.apply-btn:hover {
+    background-color: hsl(208, 73%, 30%);
+}
+
+.btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.order-selector {
+    width: 100%;
+    min-width: initial;
+}
