@@ -22,12 +22,47 @@ class TaskServiceUnitTest {
         Task mockTask = new Task();
         mockTask.setId(taskId);
 
-        // Mock the behavior of the repository
         when(taskRepository.findById(taskId)).thenReturn(java.util.Optional.of(mockTask));
 
         Task task = taskService.getTask(taskId);
 
         assertNotNull(task, "Task should not be null");
         assertEquals(taskId, task.getId(), "Task ID should match the input ID");
+    }
+
+    @Test
+    void testCreateTask() {
+        Task task = new Task();
+        task.setId(1);
+        task.setTitle("Test Task");
+
+        when(taskRepository.save(task)).thenReturn(task);
+
+        Task createdTask = taskService.addTask(task);
+
+        assertNotNull(createdTask, "Created task should not be null");
+        assertEquals("Test Task", createdTask.getTitle(), "Task title should match");
+    }
+
+    @Test
+    void testUpdateTask() {
+        Task task = new Task();
+        task.setId(1);
+        task.setTitle("Updated Task");
+
+        when(taskRepository.save(task)).thenReturn(task);
+
+        taskService.updateTask(task);
+
+        Mockito.verify(taskRepository).save(task);
+    }
+
+    @Test
+    void testDeleteTask() {
+        int taskId = 1;
+
+        taskService.deleteTask(taskId);
+
+        Mockito.verify(taskRepository).deleteById(taskId);
     }
 }

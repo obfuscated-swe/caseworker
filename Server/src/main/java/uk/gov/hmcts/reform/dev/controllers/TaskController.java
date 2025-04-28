@@ -42,6 +42,11 @@ public class TaskController {
         this.taskService = taskService;
     }
 
+    /**
+     * Gets one task with the given ID.
+     * @param id int task ID
+     * @return task
+     */
     @Operation(summary = "Gets one task with the given ID")
     @ApiResponses({@ApiResponse(responseCode = "200")})
     @GetMapping(value = "/", produces = "application/json")
@@ -54,6 +59,17 @@ public class TaskController {
         return ok(task);
     }
 
+    /**
+     * Gets all tasks with pagination.
+     * Optionally, include filters to narrow down the results
+     *
+     * @param page int page number (zero-based)
+     * @param size int number of items per page
+     * @param statuses List&lt;TaskStatus&gt; filter by task statuses (including all is the same as null)
+     * @param caseNumber Integer filter by case number, can be null
+     * @param order String sort order (ascending/descending)
+     * @return Page&lt;Task&gt; paginated list of tasks
+     */
     @Operation(summary = "Get all tasks with pagination and optional filtering")
     @ApiResponses({@ApiResponse(responseCode = "200")})
     @GetMapping(value = "/all", produces = "application/json")
@@ -74,31 +90,65 @@ public class TaskController {
         return ResponseEntity.ok(tasks);
     }
 
+    /**
+     * Posts one task that is valid.
+     * @param task Task object to be created
+     * @return ResponseEntity&lt;Task&gt; created task which now has an ID
+     */
     @Operation(summary = "Posts one task that is valid")
     @ApiResponses({@ApiResponse(responseCode = "201")})
     @PostMapping(value = "/add", produces = "application/json")
-    public ResponseEntity<Void> addTask(@Valid @RequestBody Task task) {
+    public ResponseEntity<Task> addTask(@Valid @RequestBody Task task) {
         logger.info("Adding new task: {}", task);
 
-        taskService.addTask(task);
+        Task createdTask = taskService.addTask(task);
 
-        return ResponseEntity.status(201).build();
+        return ResponseEntity.status(201).body(createdTask);
     }
 
+    /**
+     * Updates one task that is valid.
+     * @param task Task object to be updated
+     * @return ResponseEntity&lt;Void&gt; no content or not found
+     */
     @Operation(summary = "Updated one task that is valid")
     @ApiResponses({@ApiResponse(responseCode = "200")})
     @PutMapping(value = "/update", produces = "application/json")
     public ResponseEntity<Void> updateTask(@Valid @RequestBody Task task) {
         logger.info("Updating task: {}", task);
+
+        if (task.getId() <= 0) {
+            logger.error("Cannot update task without a valid ID");
+            return ResponseEntity.badRequest().build();
+        }
+
+        Task existingTask = taskService.getTask(task.getId());
+        if (existingTask == null) {
+            logger.error("Cannot update non-existent task with ID: {}", task.getId());
+            return ResponseEntity.notFound().build();
+        }
+
         taskService.updateTask(task);
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Deletes one task with the given ID.
+     * @param id int task ID
+     * @return ResponseEntity&lt;Void&gt; no content or not found
+     */
     @Operation(summary = "Deletes one task with the given ID")
     @ApiResponses({@ApiResponse(responseCode = "204")})
     @DeleteMapping(value = "/delete/", produces = "application/json")
     public ResponseEntity<Void> deleteTask(@RequestParam int id) {
         logger.info("Deleting task with ID: {}", id);
+
+        Task existingTask = taskService.getTask(id);
+        if (existingTask == null) {
+            logger.error("Cannot delete non-existent task with ID: {}", id);
+            return ResponseEntity.notFound().build();
+        }
+
         taskService.deleteTask(id);
         return ResponseEntity.noContent().build();
     }
