@@ -40,12 +40,12 @@ public class TaskService {
 
     public Page<Task> getAllTasks(int page, int size, List<TaskStatus> statuses, Integer caseNumber, String order) {
         Specification<Task> spec = Specification
-                .where(TaskSpecifications.withStatusIn(statuses))
-                .and(TaskSpecifications.withCaseNumber(caseNumber));
+            .where(TaskSpecifications.withStatusIn(statuses))
+            .and(TaskSpecifications.withCaseNumber(caseNumber));
 
         Sort sort = "ascending".equalsIgnoreCase(order)
-                ? Sort.by("dueDate").ascending()
-                : Sort.by("dueDate").descending();
+            ? Sort.by("dueDate").ascending()
+            : Sort.by("dueDate").descending();
 
         PageRequest pageable = PageRequest.of(page, size, sort);
 
