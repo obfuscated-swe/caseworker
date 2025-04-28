@@ -5,6 +5,7 @@ import { TaskService } from './task.service';
 import { ApiService } from './api.service';
 import { Task, TaskStatus } from '../types/task';
 import { ServerURL } from '../../env/environment';
+import { Page } from '../types/page';
 
 describe('TaskService', () => {
   let service: TaskService;
@@ -38,34 +39,44 @@ describe('TaskService', () => {
     service.getTask(1).subscribe((task) => {
       expect(task).toEqual(mockTask);
     });
-    const req = httpMock.expectOne(`${ServerURL}/tasks/id=1`);
+    const req = httpMock.expectOne(`${ServerURL}/tasks/?id=1`);
     expect(req.request.method).toBe('GET');
     req.flush(mockTask);
   });
 
   it('should get all tasks', () => {
-    const mockTasks: Task[] = [
-      {
-        id: 1,
-        caseNumber: 1,
-        title: 'Task 1',
-        description: '',
-        status: TaskStatus.NotStarted,
-        dueDate: new Date(),
+    const mockTasks: Page<Task> = {
+      content: [
+        {
+          id: 1,
+          caseNumber: 1,
+          title: 'Task 1',
+          description: '',
+          status: TaskStatus.NotStarted,
+          dueDate: new Date(),
+        },
+        {
+          id: 2,
+          caseNumber: 2,
+          title: 'Task 2',
+          description: '',
+          status: TaskStatus.NotStarted,
+          dueDate: new Date(),
+        },
+      ],
+      page: {
+        number: 0,
+        size: 10,
+        totalElements: 2,
+        totalPages: 1,
       },
-      {
-        id: 2,
-        caseNumber: 2,
-        title: 'Task 2',
-        description: '',
-        status: TaskStatus.NotStarted,
-        dueDate: new Date(),
-      },
-    ];
+    };
+
     service.getAllTasks().subscribe((tasks) => {
       expect(tasks).toEqual(mockTasks);
     });
-    const req = httpMock.expectOne(`${ServerURL}/tasks/all`);
+
+    const req = httpMock.expectOne(`${ServerURL}/tasks/all?page=0&size=10`);
     expect(req.request.method).toBe('GET');
     req.flush(mockTasks);
   });
@@ -96,7 +107,7 @@ describe('TaskService', () => {
     service.deleteTask(1).subscribe((response) => {
       expect(response).toBeNull();
     });
-    const req = httpMock.expectOne(`${ServerURL}/tasks/delete/id=1`);
+    const req = httpMock.expectOne(`${ServerURL}/tasks/delete/?id=1`);
     expect(req.request.method).toBe('DELETE');
     req.flush(null);
   });

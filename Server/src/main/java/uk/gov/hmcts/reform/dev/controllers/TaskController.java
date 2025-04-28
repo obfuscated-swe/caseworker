@@ -45,8 +45,7 @@ public class TaskController {
     }
 
     @Operation(summary = "Gets one task with the given ID")
-    @ApiResponses({ @ApiResponse(responseCode = "200"),
-            @ApiResponse(responseCode = "404", description = "Couldn't find the task with the given ID") })
+    @ApiResponses({ @ApiResponse(responseCode = "200") })
     @GetMapping(value = "/", produces = "application/json")
     public ResponseEntity<Task> getTask(@RequestParam int id) {
         logger.info("Fetching task with ID: {}", id);
@@ -67,7 +66,8 @@ public class TaskController {
             @Parameter(description = "Filter by case number") @RequestParam(required = false) Integer caseNumber,
             @Parameter(description = "Sort order (ascending/descending)") @RequestParam(defaultValue = "ascending") String order) {
 
-        logger.info("Fetching all tasks: page={}, size={} statuses={} caseNumber={} order={}",
+        logger.info(
+                "Fetching all tasks: page={}, size={} statuses={} caseNumber={} order={}",
                 page, size, statuses, caseNumber, order);
         Page<Task> tasks = taskService.getAllTasks(page, size, statuses, caseNumber, order);
 

@@ -12,10 +12,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static io.restassured.RestAssured.given;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-class SampleSmokeTest {
+class HealthSmokeTest {
     protected static final String CONTENT_TYPE_VALUE = "application/json";
 
-    @Value("${TEST_URL:http://localhost:8080}")
+    @Value("${TEST_URL:http://localhost:4000/health}")
     private String testUrl;
 
     @BeforeEach
@@ -27,13 +27,12 @@ class SampleSmokeTest {
     @Test
     void smokeTest() {
         Response response = given()
-            .contentType(ContentType.JSON)
-            .when()
-            .get()
-            .then()
-            .extract().response();
+                .contentType(ContentType.JSON)
+                .when()
+                .get()
+                .then()
+                .extract().response();
 
         Assertions.assertEquals(200, response.statusCode());
-        Assertions.assertTrue(response.asString().startsWith("Welcome"));
     }
 }

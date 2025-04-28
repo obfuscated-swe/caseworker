@@ -36,16 +36,16 @@ Swagger UI is available at `localhost:4000/swagger-ui/index.html`
 You must run the docker compose in the `server` directory to start the Postgres database.
 
 ```bash
-cd Server
-```
-
-```bash
 docker-compose up
 ```
 
 ```bash
-# Assuming you are in the server directory
-./gradlew clean build
+# Assuming you are in the project root
+cd Server
+
+# Building requires the test-database service to be running or else it will fail
+./gradlew clean build 
+# Running requires the database service is running
 ./gradlew run
 ```
 
@@ -55,7 +55,7 @@ Runs on `localhost:4200`
 
 ```bash
 # Make sure you're in the Client directory
-cd Client
+cd ../Client
 # Install all dependencies
 npm install
 # Serve the application
