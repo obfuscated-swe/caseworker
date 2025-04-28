@@ -1,6 +1,7 @@
 package uk.gov.hmcts.reform.dev.models;
 
 import jakarta.validation.constraints.Min;
+import org.springframework.lang.Nullable;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +10,14 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import uk.gov.hmcts.reform.dev.enums.TaskStatus;
 
 @Entity
@@ -30,6 +38,8 @@ public class Task {
     private String title;
 
     @Size(min = 0, max = 500)
+    @Column(nullable = true)
+    @Nullable
     private String description;
 
     @Enumerated(EnumType.STRING)

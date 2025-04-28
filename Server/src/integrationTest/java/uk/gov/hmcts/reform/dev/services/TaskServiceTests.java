@@ -42,10 +42,10 @@ public class TaskServiceTests {
     @Test
     void shouldCreateAndGetTask() {
         Task task = createTask(1234,
-                               "Test Task",
-                               "This is a test task",
-                               TaskStatus.NotStarted,
-                               LocalDateTime.now());
+                "Test Task",
+                "This is a test task",
+                TaskStatus.NotStarted,
+                LocalDateTime.now());
 
         int taskId = taskService.addTask(task).getId();
         Task retrievedTask = taskService.getTask(taskId);
@@ -57,16 +57,16 @@ public class TaskServiceTests {
     @Test
     void shouldGetAllTasks() {
         Task task1 = createTask(1234,
-                               "Task 1",
-                               "This is a test task",
-                               TaskStatus.NotStarted,
-                               LocalDateTime.now());
+                "Task 1",
+                "This is a test task",
+                TaskStatus.NotStarted,
+                LocalDateTime.now());
 
         Task task2 = createTask(5678,
-                                "Task 2",
-                                "This is another test task description",
-                                TaskStatus.InProgress,
-                                LocalDateTime.now());
+                "Task 2",
+                "This is another test task description",
+                TaskStatus.InProgress,
+                LocalDateTime.now());
 
         taskService.addTask(task1);
         taskService.addTask(task2);
@@ -80,14 +80,12 @@ public class TaskServiceTests {
     @Test
     void shouldUpdateTask() {
         Task task = createTask(2345,
-                               "Test Task Three",
-                               "This is a test task",
-                               TaskStatus.NotStarted,
-                               LocalDateTime.now());
+                "Test Task Three",
+                "This is a test task",
+                TaskStatus.NotStarted,
+                LocalDateTime.now());
 
-
-
-        int taskId = taskService.addTask(task).getId();
+        final int taskId = taskService.addTask(task).getId();
 
         task.setTitle("Updated Title");
 
@@ -105,10 +103,10 @@ public class TaskServiceTests {
     @Test
     void shouldDeleteTask() {
         Task task = createTask(2345,
-                               "Test Task Three",
-                               "This is a test task",
-                               TaskStatus.NotStarted,
-                               LocalDateTime.now());
+                "Test Task Three",
+                "This is a test task",
+                TaskStatus.NotStarted,
+                LocalDateTime.now());
 
         int taskId = taskService.addTask(task).getId();
 

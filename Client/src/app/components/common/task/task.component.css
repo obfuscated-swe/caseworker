@@ -11,10 +11,50 @@
     gap: 0.5rem;
 }
 
+.task-footer-right {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
 .task-case-number {
 
     font-size: 1rem;
     color: #b1b4b6;
+}
+
+.delete-icon {
+    fill: #b1b4b6
+}
+
+.delete-task {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: 2px solid var(--white);
+    padding: 0.4rem;
+    height: 100%;
+}
+
+.delete-task:hover {
+    cursor: pointer;
+    border: 2px solid var(--black);
+}
+
+.delete-confirmation {
+    display: flex;
+    background-color: var(--error-accent);
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem;
+    gap: 2rem;
+}
+
+.delete-confirmation-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
 }
 
 .task-body {

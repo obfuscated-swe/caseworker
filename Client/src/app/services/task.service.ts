@@ -51,7 +51,7 @@ export class TaskService {
   }
 
   deleteTask(id: number) {
-    return this.apiService.delete(`${ServerURL}/tasks/delete/id=${id}`).pipe(
+    return this.apiService.delete(`${ServerURL}/tasks/delete/?id=${id}`).pipe(
       catchError((error) => {
         return throwError(() => error);
       })

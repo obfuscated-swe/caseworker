@@ -11,13 +11,7 @@ import { PaginationComponent } from '../../../components/common/pagination/pagin
 
 @Component({
   selector: 'task-list',
-  imports: [
-    NoConnectionComponent,
-    TaskComponent,
-    GenericErrorComponent,
-    EmptyFilterComponent,
-    PaginationComponent,
-  ],
+  imports: [NoConnectionComponent, TaskComponent, GenericErrorComponent, PaginationComponent],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.css',
 })
@@ -76,6 +70,10 @@ export class TaskListComponent {
         this.tasks = [];
       },
     });
+  }
+
+  removeTask(id: number): void {
+    this.tasks = this.tasks.filter((task) => task.id !== id);
   }
 
   pageChanged(page: number): void {

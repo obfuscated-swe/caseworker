@@ -46,7 +46,7 @@ docker-compose up
 ```bash
 # Assuming you are in the server directory
 ./gradlew clean build
-./gradlew bootRun
+./gradlew run
 ```
 
 ### Running the Client

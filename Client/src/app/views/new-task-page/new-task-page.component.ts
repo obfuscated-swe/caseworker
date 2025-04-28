@@ -52,6 +52,6 @@ export class NewTaskPageComponent {
   }
 
   onTextInput(value: string) {
-    if (value.length > 0) this.textareaMessage = 'Current: ' + value.length;
+    this.textareaMessage = 'Current: ' + value.length;
   }
 }

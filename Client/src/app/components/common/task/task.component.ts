@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { StatusList, Task, TaskStatus } from '../../../types/task';
 import { DatePipe } from '../../../pipes/date.pipe';
 import { StatusPrinterPipe } from '../../../pipes/status-printer.pipe';
@@ -13,12 +13,18 @@ import { TaskService } from '../../../services/task.service';
 export class TaskComponent {
   @Input() task: Task | null = null;
 
+  /**
+   * Event with the id of the task that was deleted
+   */
+  @Output() taskDeleted = new EventEmitter<number>();
+
   private taskService: TaskService = inject(TaskService);
 
   public showStatusOptions: boolean = false;
   public statusList = StatusList();
   public showSpinner: boolean = false;
   public showConfirmation: boolean = false;
+  public showDeleteConfirmation: boolean = false;
   public showError: boolean = false;
 
   toggleStatusOptions() {
@@ -50,6 +56,30 @@ export class TaskComponent {
         },
       });
     }
+  }
+
+  deleteTask() {
+    this.showDeleteConfirmation = true;
+  }
+
+  confirmDeleteTask() {
+    console.log('Deleting task...');
+    if (this.task!.id === undefined) return;
+    this.taskService.deleteTask(this.task!.id).subscribe({
+      next: (res) => {
+        console.log('Task deleted successfully');
+        this.showDeleteConfirmation = false;
+        this.taskDeleted.emit(this.task!.id!);
+      },
+      error: (err) => {
+        console.error('Failed to delete task:', err);
+        this.showDeleteConfirmation = false;
+      },
+    });
+  }
+
+  cancelDeleteTask() {
+    this.showDeleteConfirmation = false;
   }
 
   /**
