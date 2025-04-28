@@ -15,9 +15,9 @@ export class NewTaskPageComponent {
   errorMessage: string | null = null;
   textareaMessage: string = '';
   newTask: Task | null = null;
-
   selectedStatus: TaskStatus = TaskStatus.NotStarted;
-  taskService: TaskService = inject(TaskService);
+
+  private taskService: TaskService = inject(TaskService);
 
   submitTask(form: NgForm) {
     if (form.valid) {

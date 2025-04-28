@@ -21,4 +21,10 @@ describe('NewTaskPageComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should update textarea message on text input', () => {
+    const testText = 'This is a test description';
+    component.onTextInput(testText);
+    expect(component.textareaMessage).toBe('Current: ' + testText.length);
+  });
 });

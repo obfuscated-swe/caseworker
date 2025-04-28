@@ -30,7 +30,7 @@ import static org.springframework.http.ResponseEntity.ok;
 
 import java.util.List;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {"http://localhost:4200", "https://localhost:4200"})
 @RestController
 @RequestMapping("/api/tasks")
 @Validated
@@ -45,7 +45,7 @@ public class TaskController {
     }
 
     @Operation(summary = "Gets one task with the given ID")
-    @ApiResponses({ @ApiResponse(responseCode = "200") })
+    @ApiResponses({@ApiResponse(responseCode = "200")})
     @GetMapping(value = "/", produces = "application/json")
     public ResponseEntity<Task> getTask(@RequestParam int id) {
         logger.info("Fetching task with ID: {}", id);
@@ -57,25 +57,27 @@ public class TaskController {
     }
 
     @Operation(summary = "Get all tasks with pagination and optional filtering")
-    @ApiResponses({ @ApiResponse(responseCode = "200") })
+    @ApiResponses({@ApiResponse(responseCode = "200")})
     @GetMapping(value = "/all", produces = "application/json")
     public ResponseEntity<Page<Task>> getAllTasks(
-            @Parameter(description = "Page number (zero-based)") @RequestParam(defaultValue = "0") int page,
-            @Parameter(description = "Number of items per page") @RequestParam(defaultValue = "20") int size,
-            @Parameter(description = "Filter by task statuses") @RequestParam(required = false) List<TaskStatus> statuses,
-            @Parameter(description = "Filter by case number") @RequestParam(required = false) Integer caseNumber,
-            @Parameter(description = "Sort order (ascending/descending)") @RequestParam(defaultValue = "ascending") String order) {
+        @Parameter(description = "Page number (zero-based)") @RequestParam(defaultValue = "0") int page,
+        @Parameter(description = "Number of items per page") @RequestParam(defaultValue = "20") int size,
+        @Parameter(description = "Filter by task statuses") @RequestParam(required = false) List<TaskStatus> statuses,
+        @Parameter(description = "Filter by case number") @RequestParam(required = false) Integer caseNumber,
+        @Parameter(description = "Sort order (ascending/descending)") @RequestParam(
+            defaultValue = "ascending") String order) {
 
         logger.info(
-                "Fetching all tasks: page={}, size={} statuses={} caseNumber={} order={}",
-                page, size, statuses, caseNumber, order);
+            "Fetching all tasks: page={}, size={} statuses={} caseNumber={} order={}",
+            page, size, statuses, caseNumber, order
+        );
         Page<Task> tasks = taskService.getAllTasks(page, size, statuses, caseNumber, order);
 
         return ResponseEntity.ok(tasks);
     }
 
     @Operation(summary = "Posts one task that is valid")
-    @ApiResponses({ @ApiResponse(responseCode = "201") })
+    @ApiResponses({@ApiResponse(responseCode = "201")})
     @PostMapping(value = "/add", produces = "application/json")
     public ResponseEntity<Void> addTask(@Valid @RequestBody Task task) {
         logger.info("Adding new task: {}", task);
@@ -86,7 +88,7 @@ public class TaskController {
     }
 
     @Operation(summary = "Updated one task that is valid")
-    @ApiResponses({ @ApiResponse(responseCode = "200") })
+    @ApiResponses({@ApiResponse(responseCode = "200")})
     @PutMapping(value = "/update", produces = "application/json")
     public ResponseEntity<Void> updateTask(@Valid @RequestBody Task task) {
         logger.info("Updating task: {}", task);
@@ -95,7 +97,7 @@ public class TaskController {
     }
 
     @Operation(summary = "Deletes one task with the given ID")
-    @ApiResponses({ @ApiResponse(responseCode = "204") })
+    @ApiResponses({@ApiResponse(responseCode = "204")})
     @DeleteMapping(value = "/delete/", produces = "application/json")
     public ResponseEntity<Void> deleteTask(@RequestParam int id) {
         logger.info("Deleting task with ID: {}", id);
