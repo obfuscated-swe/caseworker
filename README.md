@@ -36,7 +36,7 @@ The client uses Angular and TypeScript for the UI as well as the GOV.UK componen
 Runs on `localhost:4000` \
 **Swagger UI is available at `localhost:4000/swagger-ui/index.html`**
 
-You must run the docker compose in the `server` directory to start the Postgres database.
+You must run the docker compose in the root of the project to start the Postgres database.
 
 ```bash
 docker-compose up
